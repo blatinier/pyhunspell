@@ -83,7 +83,7 @@ HunSpell_init(HunSpell * self, PyObject *args, PyObject *kwds)
     }
 
     self->handle = new Hunspell(PyBytes_AsString(apath), PyBytes_AsString(dpath));
-    // TODO check class instanciation went well
+    // TODO check class instantiation went well
     //if(!self->handle) { Hunspell ain't bool
     //    PyErr_SetString(HunSpellError, "Cannot open dictionary");
     //    return -1;
