@@ -97,6 +97,7 @@ HunSpell_init(HunSpell * self, PyObject *args, PyObject *kwds)
 static void
 HunSpell_dealloc(HunSpell * self)
 {
+    delete self->handle;
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
