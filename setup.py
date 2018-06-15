@@ -23,7 +23,7 @@ import platform
 import os
 
 def get_linux_include_dirs():
-    return ['{}/hunspell'.format(d) for d in os.getenv('INCLUDE_PATH').split(':') if d]
+    return ['{}/hunspell'.format(d) for d in os.getenv('INCLUDE_PATH', '').split(':') if d]
 
 main_module_kwargs = {"sources": ['hunspell.cpp'],
                       "language": "c++"}
