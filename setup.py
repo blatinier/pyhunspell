@@ -20,6 +20,10 @@ along with PyHunspell. If not, see <http://www.gnu.org/licenses/>.
 
 from setuptools import setup, Extension
 import platform
+import os
+
+def get_linux_include_dirs():
+    return ['{}/hunspell'.format(d) for d in os.getenv('INCLUDE_PATH').split(':') if d]
 
 main_module_kwargs = {"sources": ['hunspell.cpp'],
                       "language": "c++"}
@@ -37,7 +41,7 @@ elif platform.system() == "Darwin":
 else:
     main_module_kwargs['define_macros'] = [('_LINUX', None)]
     main_module_kwargs['libraries'] = ['hunspell']
-    main_module_kwargs['include_dirs'] = '/usr/include/hunspell',
+    main_module_kwargs['include_dirs'] = get_linux_include_dirs() + ['/usr/include/hunspell']
     main_module_kwargs['extra_compile_args'] = ['-Wall']
 
 main = Extension('hunspell', **main_module_kwargs)
