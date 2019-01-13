@@ -34,7 +34,7 @@ For windows7 [@tallforasmurf](https://github.com/tallforasmurf) compiled a pytho
 
 ## With Docker
 
-This projects contains a Docker image to play with pyhunspell easily. To build the image:
+This project contains a Docker image to play with pyhunspell easily. To build the image:
 
     docker build -t my/hunspell .
     
