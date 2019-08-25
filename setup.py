@@ -21,6 +21,21 @@ along with PyHunspell. If not, see <http://www.gnu.org/licenses/>.
 from setuptools import setup, Extension
 import platform
 import os
+import subprocess
+import re
+
+def get_mac_include_dirs():
+    cmd = "brew list --versions hunspell | tr ' ' '\n' | tail -1"
+    ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    output = ps.communicate()[0]
+    hun_ver = output.decode('utf-8')
+    hun_ver = hun_ver.strip()
+    hmv = re.split(r'_',hun_ver)
+    hun_maj_ver = hmv[0] 
+    hun_path = '/usr/local/Cellar/hunspell/' + hun_ver + '/include/hunspell'
+    symlink = 'ln -s /usr/local/Cellar/hunspell/' + hun_ver + '/lib/libhunspell-' + hun_maj_ver + '.dylib /usr/local/Cellar/hunspell/' + hun_ver + '/lib/libhunspell.dylib'
+    os.system(symlink)
+    return hun_path
 
 def get_linux_include_dirs():
     return ['{}/hunspell'.format(d) for d in os.getenv('INCLUDE_PATH', '').split(':') if d]
@@ -36,7 +51,7 @@ if platform.system() == "Windows":
 elif platform.system() == "Darwin":
     main_module_kwargs['define_macros'] = [('_LINUX', None)]
     main_module_kwargs['libraries'] = ['hunspell']
-    main_module_kwargs['include_dirs'] = '/usr/local/Cellar/hunspell/1.6.2/include/hunspell',
+    main_module_kwargs['include_dirs'] = get_mac_include_dirs(),
     main_module_kwargs['extra_compile_args'] = ['-Wall']
 else:
     main_module_kwargs['define_macros'] = [('_LINUX', None)]
