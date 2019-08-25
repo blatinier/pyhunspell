@@ -31,7 +31,7 @@ def get_mac_include_dirs():
     hun_ver = output.decode('utf-8')
     hun_ver = hun_ver.strip()
     hmv = re.split(r'_',hun_ver)
-    hun_maj_ver = hmv[0] 
+    hun_maj_ver = hmv[0]
     hun_path = '/usr/local/Cellar/hunspell/' + hun_ver + '/include/hunspell'
     symlink = 'ln -s /usr/local/Cellar/hunspell/' + hun_ver + '/lib/libhunspell-' + hun_maj_ver + '.dylib /usr/local/Cellar/hunspell/' + hun_ver + '/lib/libhunspell.dylib'
     os.system(symlink)
@@ -49,6 +49,7 @@ if platform.system() == "Windows":
     main_module_kwargs['library_dirs'] = ['V:/hunspell-1.3.3/src/win_api/x64/Release/libhunspell']
     main_module_kwargs['extra_compile_args'] = ['/MT']
 elif platform.system() == "Darwin":
+    main_module_kwargs['sources'] = [
     main_module_kwargs['define_macros'] = [('_LINUX', None)]
     main_module_kwargs['libraries'] = ['hunspell']
     main_module_kwargs['include_dirs'] = get_mac_include_dirs(),
